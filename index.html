@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOLF LABS | ULTRA-GLASS INTERACTIVE LAB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Inter:wght@300;400;600&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-color: #6C5CE7;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #FFFFFF;
+            --text-dim: rgba(255, 255, 255, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(108, 92, 231, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(108, 92, 231, 0.05) 0%, transparent 40%);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Technical Header */
+        header {
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        /* Ultra Glass Card */
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            width: 90%;
+            max-width: 900px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 32px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* Task Indicator */
+        .task-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 42px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+
+        .question {
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--text-dim);
+            margin-bottom: 50px;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* Minimal Input */
+        .input-wrapper {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--glass-border);
+            color: #fff;
+            font-size: 28px;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            padding: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-bottom-color: var(--accent-color);
+        }
+
+        input::placeholder {
+            color: rgba(255,255,255,0.1);
+        }
+
+        /* Premium Button */
+        .btn-submit {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 100px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+
+        /* Feedback Layer */
+        .feedback {
+            position: absolute;
+            bottom: 40px;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            position: absolute;
+            bottom: 40px;
+            left: 50px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background: var(--glass-border);
+            border-radius: 50%;
+        }
+
+        .dot.active {
+            background: var(--accent-color);
+            box-shadow: 0 0 8px var(--accent-color);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 40px;
+            right: 50px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="status-dot"></div>
+        WOLF LABS | ACCESS LAB v2.0
+    </header>
+
+    <div class="glass-container">
+        <div class="task-label" id="taskLabel">Module 01</div>
+        <h1 id="taskTitle">Recognition</h1>
+        <p class="question" id="questionText">Hi, ____ Tim. (I am / You are)</p>
+        
+        <div class="input-wrapper">
+            <input type="text" id="userInput" placeholder="TYPE ANSWER" autocomplete="off">
+        </div>
+
+        <button class="btn-submit" onclick="checkAnswer()">Execute Mission</button>
+
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="progress-dots" id="progressDots"></div>
+
+    <footer id="counter">01 / 25</footer>
+
+    <script>
+        const exercises = [
+            { title: "Recognition", q: "Hi, ____ Tim. (I am / You are)", a: "I am" },
+            { title: "Recognition", q: "What ____ your name?", a: "is" },
+            { title: "Identity", q: "She ____ Sian.", a: "is" },
+            { title: "Identity", q: "____ name is Georgie. (Her / His)", a: "Her" },
+            { title: "Identity", q: "____ name is Buli. (Her / His)", a: "His" },
+            { title: "Grammar", q: "I ____ a student.", a: "am" },
+            { title: "Grammar", q: "You ____ my teacher.", a: "are" },
+            { title: "Grammar", q: "It ____ nice to meet you.", a: "is" },
+            { title: "Grammar", q: "I ____ not Tim. (am / is)", a: "am" },
+            { title: "Grammar", q: "He ____ not from London.", a: "is" },
+            { title: "Grammar", q: "They ____ not here.", a: "are" },
+            { title: "Grammar", q: "____ you Sian?", a: "Are" },
+            { title: "Grammar", q: "____ he your friend?", a: "Is" },
+            { title: "Transformation", q: "Negative: 'I am happy.'", a: "I am not happy" },
+            { title: "Transformation", q: "Question: 'She is Georgie.'", a: "Is she Georgie?" },
+            { title: "Contractions", q: "I am = ____", a: "I'm" },
+            { title: "Contractions", q: "He is = ____", a: "He's" },
+            { title: "Contractions", q: "You are = ____", a: "You're" },
+            { title: "Short Answers", q: "Are you a student? Yes, I ____.", a: "am" },
+            { title: "Short Answers", q: "Is she Sian? No, she ____.", a: "isn't" },
+            { title: "Real Life", q: "Say 'Olá' in English.", a: "Hello" },
+            { title: "Real Life", q: "Complete: Nice to ____ you.", a: "meet" },
+            { title: "Speaking", q: "Introduce yourself: I ____ [Name].", a: "am" },
+            { title: "Speaking", q: "Ask name: What ____ your name?", a: "is" },
+            { title: "Ultimatum", q: "Final: 'I ____ ready to speak!'", a: "am" }
+        ];
+
+        let currentEx = 0;
+
+        // Create dots
+        const dotsContainer = document.getElementById('progressDots');
+        for(let i=0; i<25; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateLab() {
+            const ex = exercises[currentEx];
+            document.getElementById('taskTitle').innerText = ex.title;
+            document.getElementById('questionText').innerText = ex.q;
+            document.getElementById('userInput').value = "";
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('counter').innerText = `${String(currentEx + 1).padStart(2, '0')} / 25`;
+            
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, idx) => {
+                dot.className = idx <= currentEx ? 'dot active' : 'dot';
+            });
+        }
+
+        function checkAnswer() {
+            const input = document.getElementById('userInput').value.trim().toLowerCase();
+            const correct = exercises[currentEx].a.toLowerCase();
+
+            if (input === correct || input.includes(correct)) {
+                document.getElementById('feedback').innerHTML = "<span style='color: #fff;'>ACCESS GRANTED.</span>";
+                
+                setTimeout(() => {
+                    if (currentEx < exercises.length - 1) {
+                        currentEx++;
+                        updateLab();
+                    } else {
+                        document.querySelector('.glass-container').innerHTML = "<h1>LEVEL COMPLETE</h1><p style='color: var(--accent-color); font-family: Space Mono;'>WOLF LABS | MAIN SERIES</p>";
+                    }
+                }, 1500);
+            } else {
+                document.getElementById('feedback').innerHTML = "<span style='color: var(--accent-color);'>ACCESS DENIED. TRY AGAIN.</span>";
+            }
+        }
+
+        // Listen for Enter key
+        document.getElementById('userInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        updateLab();
+    </script>
+</body>
+</html>
